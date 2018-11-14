@@ -1,0 +1,5 @@
+package com.assurity.rest.test;
+
+public class GetTestDataFromProperties {
+
+}

@@ -1,0 +1,103 @@
+package com.assurity.rest.test;
+
+
+import java.io.IOException;
+
+import org.testng.annotations.DataProvider;
+import org.testng.annotations.Test;
+import org.testng.annotations.BeforeClass;
+import org.testng.Assert;
+import org.testng.Reporter;
+
+import static com.jayway.restassured.RestAssured.*;
+import static org.hamcrest.Matchers.equalTo;
+
+import com.jayway.restassured.RestAssured;
+import com.jayway.restassured.http.ContentType;
+
+
+
+public class AssurityApiTest {
+
+    GetTestDataFromProperties getdata = new GetTestDataFromProperties();  
+
+@BeforeClass
+  public void setBaseUri () throws IOException {
+
+    RestAssured.baseURI = getdata.testDataMethod("baseURI");
+  }
+
+  @Test(description="Extract the name and assert if response is equal to Carbon Credits")
+  public void testCategoryId () throws IOException {
+	  
+	  	String name = getdata.testDataMethod("Name");
+		String res = given().
+							accept(ContentType.JSON).
+					 when().
+							get("/v1/Categories/6327/Details.json").
+					 then().
+					 		contentType(ContentType.JSON).
+					 		body("Name", equalTo(name)).
+					 extract().
+					        jsonPath().getString("Name");
+					       
+     
+			try{
+			Assert.assertEquals (res, name);
+			Reporter.log("PASSED: " + res + "has been extracted successfully ");
+			}
+			catch(AssertionError e){
+			
+				Reporter.log("Failed: " +res + "was not expected");
+	
+			}
+ }
+
+	@Test(dependsOnMethods = "testCategoryId")
+	public void testCanRelist () {
+	    boolean res =given ().
+							accept(ContentType.JSON).
+					 when().
+					 		get ("/v1/Categories/6327/Details.json").
+					 then().
+					 		contentType(ContentType.JSON).
+					 		body("Name", equalTo("Carbon credits")).
+		     		extract().
+		     				jsonPath().getBoolean("CanRelist");
+ 
+	    	    System.out.println("***" +res);
+	    	    
+	    	    Assert.assertEquals (res, true);
+	
+	}
+	
+	@Test(dependsOnMethods = "testCanRelist")
+	public void testIfNameisGalleryAndCheckDescription () {
+		
+		 Object[] getpromotionnode = 
+				 
+	     given ()
+	     		.accept(ContentType.JSON)
+		.when()
+				.get ("/v1/Categories/6327/Details.json")
+		.then()
+				.contentType(ContentType.JSON)
+				.body("Name", equalTo("Carbon credits"))
+				.body("CanRelist",equalTo(true))
+		.extract().body().jsonPath().getList("Promotions").toArray();
+		
+	
+	
+		 for(int i=0;i<getpromotionnode.length;i++)
+		 {
+			 	if((getpromotionnode[i].toString().contains("Name=Gallery")) &&
+			 			(getpromotionnode[i].toString().contains("2x larger image")))
+			 	{
+			 		System.out.println("PASSED: The Promotions element with Name = \"Gallery\" has a Description that contains the text \"2x larger image\"");
+			 		
+			 	}
+		 }
+		 
+
+	}
+}

@@ -1,0 +1,4 @@
+baseURI=https://api.tmsandbox.co.nz
+jsonPath=/v1/Categories/6327/Details.json
+name=Carbon Credits
+canRelist=true

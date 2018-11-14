@@ -1,0 +1,51 @@
+package com.assurity.rest.test;
+
+import org.testng.annotations.Test;
+import org.testng.annotations.BeforeClass;
+import org.testng.AssertJUnit;
+
+import static com.jayway.restassured.RestAssured.*;
+
+import com.jayway.restassured.RestAssured;
+import com.jayway.restassured.http.ContentType;
+import com.jayway.restassured.response.Response;
+
+public class App {
+
+  @BeforeClass
+  public void setBaseUri () {
+
+    RestAssured.baseURI = "https://api.tmsandbox.co.nz";
+    // https://api.tmsandbox.co.nz/v1/Categories/6327/Details.json?catalogue=false
+  }
+
+  @Test
+  public void testCategoryId () {
+    
+    String res = 
+    given ()
+    		.param ("query", "Name")
+    .when()
+    		.get ("/v1/Categories/6327/Details.json?catalogue=false")
+    .then()
+    		.contentType(ContentType.JSON)
+    		.extract()
+    		.jsonPath().getString("Name");
+ 
+    
+   // System.out.println(res.asString());
+    AssertJUnit.assertEquals (res.toString(), "Carbon credits");
+  }
+
+//@Test
+//public void testStatusCodeRestAssured () {
+//
+//given ().param ("query", "restaurants in mumbai")
+//        .param ("key", "Xyz")
+//        .when()
+//        .get ("/maps/api/place/textsearch/json")
+//        .then ()
+//        .assertThat ().statusCode (200);
+//
+//}
+}

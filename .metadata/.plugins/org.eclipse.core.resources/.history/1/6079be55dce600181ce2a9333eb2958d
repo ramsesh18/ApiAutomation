@@ -1,0 +1,138 @@
+package com.assurity.rest.test;
+
+import groovy.xml.Entity;
+
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+
+import net.minidev.json.JSONArray;
+import net.minidev.json.JSONObject;
+
+import org.testng.annotations.Test;
+import org.testng.annotations.BeforeClass;
+import org.testng.Assert;
+import org.testng.AssertJUnit;
+
+import static com.jayway.restassured.RestAssured.*;
+import static org.hamcrest.Matchers.equalTo;
+
+import com.jayway.jsonpath.JsonPath;
+import com.jayway.restassured.RestAssured;
+import com.jayway.restassured.http.ContentType;
+import com.jayway.restassured.response.Response;
+import com.jayway.restassured.specification.RequestSpecification;
+//import com.jayway.restassured.response.Response;
+
+public class App {
+
+ 
+
+@BeforeClass
+  public void setBaseUri () {
+
+    RestAssured.baseURI = "https://api.tmsandbox.co.nz";
+  }
+
+  @Test(description="Extract the name and assert if response is equal to Carbon Credits")
+  public void testCategoryId () {
+	  
+  
+    String res = 
+    given ()
+    		.accept(ContentType.JSON)
+    		.param("param_name", "param_value").
+    when()
+    		.get ("/v1/Categories/6327/Details.json")
+    .then()
+    		.contentType(ContentType.JSON)
+    		.body("Name", equalTo("Carbon credits"))
+    .extract()
+    		.jsonPath().getString("Name");
+    		
+     
+    System.out.println(res);
+   
+    Assert.assertEquals (res, "Carbon credits");
+  }
+
+	@Test(dependsOnMethods = "testCategoryId")
+	public void testCanRelist () {
+	    boolean res = 
+	    	    given ()
+				.accept(ContentType.JSON)
+			
+		.when()
+				.get ("/v1/Categories/6327/Details.json")
+		.then()
+				.contentType(ContentType.JSON)
+				.body("Name", equalTo("Carbon credits"))
+		
+		.extract()
+				.jsonPath().getBoolean("CanRelist");
+ 
+	    	    System.out.println("***" +res);
+	    	    
+	    	    Assert.assertEquals (res, true);
+	
+	}
+	
+	@Test
+	public void testStatusCodeRestAssured () {
+
+		List<Object> res = given ()
+		.accept(ContentType.JSON)
+		
+		.when()
+		.get ("/v1/Categories/6327/Details.json")
+		.then()
+		.contentType(ContentType.JSON)
+		.body("Name", equalTo("Carbon credits"))
+		.body("CanRelist",equalTo(true))
+		.extract().body().jsonPath().setRoot("Promotions.Name").getList("...");
+		
+		//.extract().body().jsonPath().peek();
+				
+				//.jsonPath().getString("Promotions.Name");
+			System.out.println(res.size());
+		for (int i = 0; i < res.size(); i++) {
+			System.out.println(res.get(i));
+		}
+		
+
+
+	    
+		
+	    
+//	    	if (res.contains("Gallery")){
+//	    	    String res1 = 
+//	    	    	    given ()
+//	    				.accept(ContentType.JSON)
+//	    				
+//	    		.when()
+//	    				.get ("/v1/Categories/6327/Details.json")
+//	    		.then()
+//	    				.contentType(ContentType.JSON)
+//	    				.body("Name", equalTo("Carbon credits"))
+//	    				.body("CanRelist",equalTo(true))
+//	    				
+//	    		.extract()
+//	    				
+//	    				.jsonPath().getString("Promotions.Description");
+//	    	    
+//	    	    if (res1.contains("4x larger image")){
+//	    	    	System.out.println("SUCCESS");
+//	    	    }
+//	    		
+//	    	
+//	    	
+//	    	  System.out.println("**Res1*" +res1 );
+//	    	}
+//	    
+	    	    
+	    	  
+		
+	
+	
+}
+}

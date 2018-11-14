@@ -1,0 +1,57 @@
+package com.assurity.rest.test;
+
+import org.testng.annotations.Test;
+import org.testng.annotations.BeforeClass;
+import org.testng.AssertJUnit;
+
+import static com.jayway.restassured.RestAssured.*;
+import static org.hamcrest.Matchers.equalTo;
+import com.jayway.restassured.RestAssured;
+import com.jayway.restassured.http.ContentType;
+import com.jayway.restassured.response.Response;
+
+public class App {
+
+  @BeforeClass
+  public void setBaseUri () {
+
+    RestAssured.baseURI = "https://api.tmsandbox.co.nz";
+  }
+
+  @Test(description="Extract the name and assert if response is equal to Carbon Credits")
+  public void testCategoryId () {
+	  
+  
+    String res = 
+    given ()
+    		.accept(ContentType.JSON)
+    		.param("param_name", "param_value").
+    when()
+    		.get ("/v1/Categories/6327/Details.json")
+    .then()
+    		.contentType(ContentType.JSON)
+    		.body("Name", equalTo("Carbon credits"))
+    .extract()
+    		.jsonPath().getString("Name");
+    		
+     
+    System.out.println(res);
+   
+    AssertJUnit.assertEquals (res, "Carbon credits");
+  }
+
+	@Test(dependsOnMethods = "testCategoryId")
+	public void testStatusCodeRestAssured () {
+		 given()
+	        .contentType(ContentType.JSON)
+	        .pathParam("id", "AskJsd8Sd")
+	    .when()
+	        .get("/examplepath/{id}")
+	    .then()
+	        .statusCode(200)
+	        .body("firstName", equalTo("Onur"))
+	        .body("Surname", equalTo("Baskirt"));
+	    	    
+	
+	}
+}

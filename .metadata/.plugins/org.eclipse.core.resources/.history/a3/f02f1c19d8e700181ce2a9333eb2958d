@@ -1,0 +1,23 @@
+package com.assurity.rest.test;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.util.Properties;
+
+public class GetTestDataFromProperties {
+	// loadPropertyFile is a user defined method to locate multiple properties file
+	
+	public String testDataMethod(String name) throws FileNotFoundException{
+
+
+				// Step #1: Locate Properties File
+				File file=new File("testdata.properties");
+				
+				// Step #2: Convert data into bytes
+				FileInputStream fileinput =new FileInputStream(file);
+				
+				return name;
+	}
+
+}

@@ -1,0 +1,45 @@
+package com.assurity.rest.test;
+
+import org.testng.annotations.Test;
+import org.testng.annotations.BeforeClass;
+import org.testng.AssertJUnit;
+import org.testng.Assert;
+import org.testng.annotations.BeforeClass;
+import org.testng.annotations.Test;
+import static com.jayway.restassured.RestAssured.*;
+import com.jayway.restassured.RestAssured;
+import com.jayway.restassured.response.Response;
+
+public class App {
+
+  @BeforeClass
+  public void setBaseUri () {
+
+    RestAssured.baseURI = "https://maps.googleapis.com";
+  }
+
+  @Test
+  public void testStatusCode () {
+    
+    Response res = 
+    given ()
+    .param ("query", "restaurants in mumbai")
+    .param ("key", "Xyz")
+    .when()
+    .get ("/maps/api/place/textsearch/json");
+
+    AssertJUnit.assertEquals (res.statusCode (), 100);
+  }
+
+@Test
+public void testStatusCodeRestAssured () {
+
+given ().param ("query", "restaurants in mumbai")
+        .param ("key", "Xyz")
+        .when()
+        .get ("/maps/api/place/textsearch/json")
+        .then ()
+        .assertThat ().statusCode (200);
+
+}
+}
