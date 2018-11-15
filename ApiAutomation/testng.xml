@@ -8,7 +8,6 @@
   <test name="Test">
     <classes>
       <class name="com.assurity.rest.test.AssurityApiTest"/>
-      <class name="com.assurity.rest.test.AssurityApiTestTest"/>
     </classes>
   </test> <!-- Test -->
 </suite> <!-- Suite -->

@@ -13,11 +13,11 @@ import com.jayway.restassured.http.ContentType;
 
 /**
  * @author Ramaseshan Thirumalai
- * Rests Assured library clubbed with Maven and TestNg framework
+ * RestAssured library clubbed with Maven and TestNg framework
  * RestAssured library uses Gherkin format  which will be easy for users for read and understand
  * Maven (central) repository has been used to get the desired library
  * @BeforeClass - will be loaded before the Test Method and it will load the test data and the API
- * 
+ * @Test - actual test method
  */
 
 public class AssurityApiTest {
@@ -30,10 +30,10 @@ public class AssurityApiTest {
  	String promotionArray = null;
 
  	
-@BeforeClass
+  @BeforeClass
   public void setBaseUri () throws IOException {
 
-	/** Load the URL and other test data **/
+	/** Load the URL and other test data from properties **/
     RestAssured.baseURI = getdata.testDataMethod("baseURI");
      jsonPath = getdata.testDataMethod("jsonPath");
  	 name = getdata.testDataMethod("Name");
@@ -47,52 +47,58 @@ public class AssurityApiTest {
   @Test(description="Extract the name and assert if response is equal to value of data input")
   public void testCategoryId () throws IOException {
 	  
-	  
-		String res = given().
+		/*
+		 * Logic: Use given/when/then/extract to extract value of "Name"
+		 * and assert the same
+		 */
+		String nameReturnedFromApi = given().
 							accept(ContentType.JSON).
 					 when().
 							get(jsonPath).
 					 then().
 					 		contentType(ContentType.JSON).
-					 	//	body("Name", equalTo(name)).
 					 extract().
 					        jsonPath().getString("Name");
 					       
      
 			try{
-			Assert.assertEquals (res, name);
-			Reporter.log("PASSED: Name =  " + res + " has been extracted successfully ");
+			Assert.assertEquals (nameReturnedFromApi, name);
+			Reporter.log("PASSED: Name =  " + nameReturnedFromApi + " has been extracted successfully ");
 			}
 			catch(AssertionError e){
 				
-				Assert.fail("Failed: Name =  " +res + " was not expected : " + e.getMessage()
+				Assert.fail("Failed: Name =  " +nameReturnedFromApi + " was not expected : " + e.getMessage()
 						+ "\n");
-				Reporter.log("Failed: Name = " +res + " was not expected");
+				Reporter.log("Failed: Name = " +nameReturnedFromApi + " was not expected");
 	
 			}
  }
 
 	@Test(description="Extract the value of canRelist and assert if response is equal to value of Input data")
 	public void testCanRelist () {
-	    boolean res =given ().
+		
+		/*
+		 * Logic: Use given/when/then/extract to extract value of "CanRelist"
+		 * and assert the same
+		 */
+	    boolean relistValue =given ().
 							accept(ContentType.JSON).
 					 when().
 					 		get (jsonPath).
 					 then().
 					 		contentType(ContentType.JSON).
-					 		//	body("Name", equalTo(name)).
-		     		extract().
+					 extract().
 		     				jsonPath().getBoolean("CanRelist");
  
 	    	  
 	    	try{
-	    	    Assert.assertEquals (res, canRelistBoolean);
-	    	    Reporter.log("PASSED: CanRelist = " + res + " has been extracted successfully ");
+	    	    Assert.assertEquals (relistValue, canRelistBoolean);
+	    	    Reporter.log("PASSED: CanRelist = " + relistValue + " has been extracted successfully ");
 	    		}
 	    	catch(AssertionError e){
 	    			    				
-				Reporter.log("Failed: CanRelist = " +res + " was not expected");
-				Assert.fail("Failed: CanRelist =  " +res + " was not expected : " + e.getMessage()
+				Reporter.log("Failed: CanRelist = " +relistValue + " was not expected");
+				Assert.fail("Failed: CanRelist =  " +relistValue + " was not expected : " + e.getMessage()
 						+ "\n");
 				
 			
@@ -102,11 +108,23 @@ public class AssurityApiTest {
 	@Test(description="Extract name of promotion and image size")
 	public void testPromotionNameAndCheckDescription () {
 		
+		/*
+		 * Logic: Use given/when/then/extract to extract all the objects within the
+		 * element/node Promotions and convert into an Array.
+		 * Once we get this, now iterate each array and find if it contains the expected value
+		 *  
+		 */
 			
 		String[] testPromotionsArray=promotionArray.split(",");
 		String promotionName = null;
 		String promotions = null;
 		String imageSize =  null;
+		
+		/**
+		 * Extract test data as array and store it in a String
+		 * Main reason of doing it is to group them as one test data as they 
+		 * fall under node Promotions
+		 */
 					
 		for (String keyword : testPromotionsArray) 
 		{
@@ -130,10 +148,11 @@ public class AssurityApiTest {
 			 for(int i=0;i<getpromotionnode.length;i++)
 			 {
 				 if(flag == false){
+					 
 				 	if((getpromotionnode[i].toString().contains("Name="+promotionName)) &&
 				 			(getpromotionnode[i].toString().contains(imageSize)))
 				 	{
-				 		Reporter.log("PASSED:The Promotions element with Name = \""+promotionName+"\" has a Description that contains the text  \""+imageSize+"\"");
+				 		Reporter.log("PASSED:The Promotions element with Name = \""+promotionName+"\" and the Description that contains the text  \""+imageSize+"\"");
 				 		flag = true;
 				 	}
 				 	
@@ -144,7 +163,7 @@ public class AssurityApiTest {
 				 Assert.assertTrue(true, "PASSED:The Promotions element with Name = \""+promotionName+"\" has a Description that contains the text  \""+imageSize+"\"");
 			 }
 			 else{
-				 Assert.fail("FAILED:The Promotions element is not equal to Name = \""+promotionName+"\" has a Description does not contains the text  \""+imageSize+"\"");
+				 Assert.fail("FAILED:The Promotions element does not have Name = \""+promotionName+"\" and the  Description does not contains the text  \""+imageSize+"\"");
 			 }
 }
 }

@@ -5,9 +5,7 @@
     <classes>
       <class name="com.assurity.rest.test.AssurityApiTest">
         <methods>
-          <include name="testCanRelist"/>
           <include name="testPromotionNameAndCheckDescription"/>
-          <include name="testCategoryId"/>
           <include name="setBaseUri"/>
         </methods>
       </class> <!-- com.assurity.rest.test.AssurityApiTest -->
