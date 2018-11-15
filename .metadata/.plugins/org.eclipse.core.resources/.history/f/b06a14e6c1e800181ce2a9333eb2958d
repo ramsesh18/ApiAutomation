@@ -49,7 +49,7 @@ public class AssurityApiTest {
 	  
 		/*
 		 * Logic: Use given/when/then/extract to extract value of "Name"
-		 * and assert the same.
+		 * and assert the same
 		 */
 		String nameReturnedFromApi = given().
 							accept(ContentType.JSON).
