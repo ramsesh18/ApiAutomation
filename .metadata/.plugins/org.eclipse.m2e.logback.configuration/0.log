@@ -1689,3 +1689,8 @@ org.eclipse.core.runtime.CoreException: Could not resolve artifact junit:junit:j
 2018-11-15 21:50:03,769 [Worker-468] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory C:\Users\ramaseshant\assurity\ApiAutomation\src\main\resources
 2018-11-15 21:50:03,788 [Worker-468] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
 2018-11-15 21:50:03,788 [Worker-468] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory C:\Users\ramaseshant\assurity\ApiAutomation\src\test\resources
+2018-11-15 22:04:24,449 [Worker-488] INFO  o.e.m.c.i.l.LifecycleMappingFactory - Using org.eclipse.m2e.jdt.JarLifecycleMapping lifecycle mapping for MavenProject: com.assurity:rest.test:0.0.1-SNAPSHOT @ C:\Users\ramaseshant\assurity\ApiAutomation\pom.xml.
+2018-11-15 22:04:24,814 [Worker-488] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2018-11-15 22:04:24,815 [Worker-488] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory C:\Users\ramaseshant\assurity\ApiAutomation\src\main\resources
+2018-11-15 22:04:24,816 [Worker-488] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2018-11-15 22:04:24,817 [Worker-488] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory C:\Users\ramaseshant\assurity\ApiAutomation\src\test\resources
