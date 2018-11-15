@@ -20,8 +20,8 @@ up to Step 7 to install the plug-in/framework.
 
 There are 2 ways to run this project
 1. Maven commands using command line
-	a) "mvn install" will install all the libraries
-	b) "mvn test" will run the test
+	1. "mvn install" will install all the libraries
+	2. "mvn test" will run the test
 2. Right-click on "AssurityApiTest" in Eclipse IDE (or any IDE you use) and Run-as "TestNG Test"
 
 There are 2 ways to view the report
