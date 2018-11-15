@@ -1702,3 +1702,19 @@ org.eclipse.core.runtime.CoreException: Could not resolve artifact junit:junit:j
 2018-11-15 23:33:34,091 [Worker-488] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory C:\Users\ramaseshant\assurity\ApiAutomation\src\main\resources
 2018-11-15 23:33:34,093 [Worker-488] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
 2018-11-15 23:33:34,094 [Worker-488] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory C:\Users\ramaseshant\assurity\ApiAutomation\src\test\resources
+2018-11-15 23:39:38,793 [Worker-491] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2018-11-15 23:39:38,794 [Worker-491] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory C:\Users\ramaseshant\assurity\ApiAutomation\src\main\resources
+2018-11-15 23:39:38,796 [Worker-491] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2018-11-15 23:39:38,797 [Worker-491] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory C:\Users\ramaseshant\assurity\ApiAutomation\src\test\resources
+2018-11-15 23:39:48,618 [Worker-494] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2018-11-15 23:39:48,619 [Worker-494] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory C:\Users\ramaseshant\assurity\ApiAutomation\src\main\resources
+2018-11-15 23:39:48,621 [Worker-494] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2018-11-15 23:39:48,621 [Worker-494] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory C:\Users\ramaseshant\assurity\ApiAutomation\src\test\resources
+2018-11-15 23:41:15,383 [Worker-494] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2018-11-15 23:41:15,384 [Worker-494] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory C:\Users\ramaseshant\assurity\ApiAutomation\src\main\resources
+2018-11-15 23:41:15,385 [Worker-494] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2018-11-15 23:41:15,386 [Worker-494] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory C:\Users\ramaseshant\assurity\ApiAutomation\src\test\resources
+2018-11-15 23:41:18,529 [Worker-493] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2018-11-15 23:41:18,530 [Worker-493] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory C:\Users\ramaseshant\assurity\ApiAutomation\src\main\resources
+2018-11-15 23:41:18,532 [Worker-493] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2018-11-15 23:41:18,533 [Worker-493] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory C:\Users\ramaseshant\assurity\ApiAutomation\src\test\resources
