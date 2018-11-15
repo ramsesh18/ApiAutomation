@@ -1,0 +1,146 @@
+package com.assurity.rest.test;
+
+
+import java.io.IOException;
+import org.testng.annotations.Test;
+import org.testng.annotations.BeforeClass;
+import org.testng.Assert;
+import org.testng.Reporter;
+import static com.jayway.restassured.RestAssured.*;
+import static org.hamcrest.Matchers.equalTo;
+import com.jayway.restassured.RestAssured;
+import com.jayway.restassured.http.ContentType;
+
+/**
+ * @author Ramaseshan Thirumalai
+ * Rests Assured library clubbed with Maven and TestNg framework
+ * RestAssured library uses Gherkin format  which will be easy for users for read and understand
+ * Maven (central) repository has been used to get the desired library
+ * @BeforeClass - will be loaded before the Test Method and it will load the test data and the API
+ * 
+ */
+
+public class AssurityApiTest {
+
+    GetTestDataFromProperties getdata = new GetTestDataFromProperties();  
+    String jsonPath = null;
+ 	String name = null;
+ 	String canRelist = null;
+ 	boolean canRelistBoolean = false;
+ 	String promotionArray = null;
+
+ 	
+@BeforeClass
+  public void setBaseUri () throws IOException {
+
+	/** Load the URL and other test data **/
+    RestAssured.baseURI = getdata.testDataMethod("baseURI");
+     jsonPath = getdata.testDataMethod("jsonPath");
+ 	 name = getdata.testDataMethod("Name");
+ 	 canRelist = getdata.testDataMethod("canRelist");
+ 	 canRelistBoolean = Boolean.parseBoolean(canRelist);
+ 	 promotionArray = getdata.testDataMethod("promotions2xLargeImage");
+
+	
+  }
+
+  @Test(description="Extract the name and assert if response is equal to Carbon Credits")
+  public void testCategoryId () throws IOException {
+	  
+	  
+		String res = given().
+							accept(ContentType.JSON).
+					 when().
+							get(jsonPath).
+					 then().
+					 		contentType(ContentType.JSON).
+					 	//	body("Name", equalTo(name)).
+					 extract().
+					        jsonPath().getString("Name");
+					       
+     
+			try{
+			Assert.assertEquals (res, name);
+			Reporter.log("PASSED: " + res + " has been extracted successfully ");
+			}
+			catch(AssertionError e){
+			
+				Reporter.log("Failed: " +res + " was not expected");
+	
+			}
+ }
+
+	@Test(description="Extract the value of canRelist and assert if response is equal to true")
+	public void testCanRelist () {
+	    boolean res =given ().
+							accept(ContentType.JSON).
+					 when().
+					 		get (jsonPath).
+					 then().
+					 		contentType(ContentType.JSON).
+					 		//	body("Name", equalTo(name)).
+		     		extract().
+		     				jsonPath().getBoolean("CanRelist");
+ 
+	    	  
+	    	try{
+	    	    Assert.assertEquals (res, canRelistBoolean);
+	    	    Reporter.log("PASSED: CanRelist = " + res + " has been extracted successfully ");
+	    		}
+	    	catch(AssertionError e){
+	    			    				
+				Reporter.log("Failed: CanRelist = " +res + " was not expected");
+				Assert.fail("Failed: CanRelist =  " +res + " was not expected : " + e.getMessage()
+						+ "\n");
+				
+			
+	    		}
+	}
+	
+	@Test(description="The Promotions element with Name = Gallery has a Description that contains the text 2x larger image")
+	public void testIfNameisGalleryAndCheckDescription () {
+		
+			
+		String[] testPromotionsArray=promotionArray.split(",");
+		String gallery = null;
+		String promotions = null;
+		String imageSize =  null;
+					
+		for (String keyword : testPromotionsArray) 
+		{
+		      promotions = testPromotionsArray[0];
+		      gallery = testPromotionsArray[1];
+		      imageSize = testPromotionsArray[2];
+					     
+		}
+		
+		 Object[] getpromotionnode = 
+				 
+	     given ()
+	     		.accept(ContentType.JSON)
+		.when()
+				.get (jsonPath)
+		.then()
+				.contentType(ContentType.JSON)
+			//	.body("Name", equalTo(name))
+			//	.body("CanRelist",equalTo(canRelistBoolean)).assertThat()
+		.extract().body().jsonPath().getList(promotions).toArray();
+		
+				
+			 for(int i=0;i<getpromotionnode.length;i++)
+			 {
+				 	if((getpromotionnode[i].toString().contains("Name="+gallery)) &&
+				 			(getpromotionnode[i].toString().contains(imageSize)))
+				 	{
+				 		Reporter.log("PASSED:The Promotions element with Name = \""+gallery+"\" has a Description that contains the text  \""+imageSize+"\"");
+				 		
+				 	}
+				 	else{
+				 		Reporter.log("Failed:  Value received is Incorrect. Value returned was Name = \""+gallery+"\" and the Description contains the text  \""+imageSize+"\"");
+				 	}
+				 	
+			 }
+		 
+
+	}
+}

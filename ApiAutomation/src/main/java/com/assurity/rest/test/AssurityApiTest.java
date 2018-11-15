@@ -2,20 +2,23 @@ package com.assurity.rest.test;
 
 
 import java.io.IOException;
-
-import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 import org.testng.annotations.BeforeClass;
 import org.testng.Assert;
 import org.testng.Reporter;
-
 import static com.jayway.restassured.RestAssured.*;
 import static org.hamcrest.Matchers.equalTo;
-
 import com.jayway.restassured.RestAssured;
 import com.jayway.restassured.http.ContentType;
 
-
+/**
+ * @author Ramaseshan Thirumalai
+ * Rests Assured library clubbed with Maven and TestNg framework
+ * RestAssured library uses Gherkin format  which will be easy for users for read and understand
+ * Maven (central) repository has been used to get the desired library
+ * @BeforeClass - will be loaded before the Test Method and it will load the test data and the API
+ * 
+ */
 
 public class AssurityApiTest {
 
@@ -26,6 +29,7 @@ public class AssurityApiTest {
  	boolean canRelistBoolean = false;
  	String promotionArray = null;
 
+ 	
 @BeforeClass
   public void setBaseUri () throws IOException {
 
@@ -40,7 +44,7 @@ public class AssurityApiTest {
 	
   }
 
-  @Test(description="Extract the name and assert if response is equal to Carbon Credits")
+  @Test(description="Extract the name and assert if response is equal to value of data input")
   public void testCategoryId () throws IOException {
 	  
 	  
@@ -50,23 +54,25 @@ public class AssurityApiTest {
 							get(jsonPath).
 					 then().
 					 		contentType(ContentType.JSON).
-					 		body("Name", equalTo(name)).
+					 	//	body("Name", equalTo(name)).
 					 extract().
 					        jsonPath().getString("Name");
 					       
      
 			try{
 			Assert.assertEquals (res, name);
-			Reporter.log("PASSED: " + res + " has been extracted successfully ");
+			Reporter.log("PASSED: Name =  " + res + " has been extracted successfully ");
 			}
 			catch(AssertionError e){
-			
-				Reporter.log("Failed: " +res + " was not expected");
+				
+				Assert.fail("Failed: Name =  " +res + " was not expected : " + e.getMessage()
+						+ "\n");
+				Reporter.log("Failed: Name = " +res + " was not expected");
 	
 			}
  }
 
-	@Test
+	@Test(description="Extract the value of canRelist and assert if response is equal to value of Input data")
 	public void testCanRelist () {
 	    boolean res =given ().
 							accept(ContentType.JSON).
@@ -74,34 +80,38 @@ public class AssurityApiTest {
 					 		get (jsonPath).
 					 then().
 					 		contentType(ContentType.JSON).
-					 		body("Name", equalTo(name)).
+					 		//	body("Name", equalTo(name)).
 		     		extract().
 		     				jsonPath().getBoolean("CanRelist");
  
 	    	  
 	    	try{
 	    	    Assert.assertEquals (res, canRelistBoolean);
-	    	    Reporter.log("PASSED: " + res + " has been extracted successfully ");
+	    	    Reporter.log("PASSED: CanRelist = " + res + " has been extracted successfully ");
 	    		}
 	    	catch(AssertionError e){
-				Reporter.log("Failed: " +res + "was not expected");
-
+	    			    				
+				Reporter.log("Failed: CanRelist = " +res + " was not expected");
+				Assert.fail("Failed: CanRelist =  " +res + " was not expected : " + e.getMessage()
+						+ "\n");
+				
+			
 	    		}
 	}
 	
-	@Test
-	public void testIfNameisGalleryAndCheckDescription () {
+	@Test(description="Extract name of promotion and image size")
+	public void testPromotionNameAndCheckDescription () {
 		
 			
 		String[] testPromotionsArray=promotionArray.split(",");
-		String gallery = null;
+		String promotionName = null;
 		String promotions = null;
 		String imageSize =  null;
 					
 		for (String keyword : testPromotionsArray) 
 		{
 		      promotions = testPromotionsArray[0];
-		      gallery = testPromotionsArray[1];
+		      promotionName = testPromotionsArray[1];
 		      imageSize = testPromotionsArray[2];
 					     
 		}
@@ -114,21 +124,27 @@ public class AssurityApiTest {
 				.get (jsonPath)
 		.then()
 				.contentType(ContentType.JSON)
-				.body("Name", equalTo(name))
-				.body("CanRelist",equalTo(canRelistBoolean))
 		.extract().body().jsonPath().getList(promotions).toArray();
 		
-				
+				boolean flag = false;
 			 for(int i=0;i<getpromotionnode.length;i++)
 			 {
-				 	if((getpromotionnode[i].toString().contains("Name="+gallery)) &&
+				 if(flag == false){
+				 	if((getpromotionnode[i].toString().contains("Name="+promotionName)) &&
 				 			(getpromotionnode[i].toString().contains(imageSize)))
 				 	{
-				 		Reporter.log("PASSED:The Promotions element with Name = \""+gallery+"\" has a Description that contains the text  \""+imageSize+"\"");
-				 		
+				 		Reporter.log("PASSED:The Promotions element with Name = \""+promotionName+"\" has a Description that contains the text  \""+imageSize+"\"");
+				 		flag = true;
 				 	}
+				 	
+				 }
 			 }
-		 
-
-	}
+			 
+			 if(flag == true){
+				 Assert.assertTrue(true, "PASSED:The Promotions element with Name = \""+promotionName+"\" has a Description that contains the text  \""+imageSize+"\"");
+			 }
+			 else{
+				 Assert.fail("FAILED:The Promotions element is not equal to Name = \""+promotionName+"\" has a Description does not contains the text  \""+imageSize+"\"");
+			 }
+}
 }
