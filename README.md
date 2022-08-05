@@ -1,6 +1,6 @@
 # RamaseshanThirumalai
 
-## Welcome to Assurity Api Automation
+## Welcome
 
 The API project has been developed using JAVA RestAssured combined with Maven and TestNG framework.
 
